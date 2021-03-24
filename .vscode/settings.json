@@ -1,0 +1,6 @@
+{
+  "cSpell.words": ["Katex", "mdast", "mdxp", "rehype", "rehypex"],
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": false
+  }
+}
