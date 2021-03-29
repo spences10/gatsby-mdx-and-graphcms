@@ -1,4 +1,4 @@
-# Gatsby with MDX and GraphCMS
+# Gatsby with MDX
 
 # 👋
 
@@ -102,8 +102,6 @@ __Why__ Gatsby
 
 __Build__
 
-__GraphCMS__ with MDX
-
 </Step>
 
 <Step styles={{
@@ -123,8 +121,6 @@ as='Flex' gridArea="logos" flexFlow="column nowrap" justifyContent="space-evenly
 
 ![Build](./assets/build.svg)
 
-![GraphCMS](./assets/graphcms-logo.svg)
-
 </Step>
 </Grid>
 
@@ -136,8 +132,27 @@ as='Flex' gridArea="logos" flexFlow="column nowrap" justifyContent="space-evenly
 - What is MDX
 - Why Gatsby
 - Build a Gatsby site with MDX
-- Use GraphCMS blog template for content with MDX components
 - Ok, so - first up!
+
+</Note>
+
+---
+
+# Bonus
+
+<div sx={{display: 'flex'}}>
+  
+  <img src="./assets/graphcms-logo.svg" width="100" />
+  <img src="./assets/mdx-logo.svg" width="200" />
+
+</div>
+
+GraphCMS with MDX
+
+<Note>
+
+- Bonus round time permitting
+- Use GraphCMS blog template for content with MDX components
 
 </Note>
 
@@ -153,6 +168,26 @@ as='Flex' gridArea="logos" flexFlow="column nowrap" justifyContent="space-evenly
   editing in plain text files that can be converted to HTML.
 - fun fact, this presentation is written in Markdown with JSX, more on
   that later though
+
+</Note>
+
+---
+
+<iframe
+  src="https://daringfireball.net/projects/markdown/"
+  title="Markdown creation"
+  width="50%"
+  height="50%"
+  style={{
+    border: 'none',
+    transform: 'scale(1.5)',
+  }}
+/>
+
+<Note>
+
+- Markdown has been around since 2004, here's the original post from
+  John Gruber on Daring Fireball
 
 </Note>
 
@@ -214,6 +249,7 @@ This is a paragraph
 
 - MDX is the next step with Markdown
 - MDX is Markdown and JSX
+- JSX being the HTML elements in React
 - It allows you to add interactive components to your documentation
 
 </Note>
@@ -271,6 +307,199 @@ This is a paragraph
 
 ---
 
+<CodeHighlight>
+
+## Install dependencies!
+
+```bash
+#  bash
+yarn add gatsby react react-dom
+```
+
+<Note>
+
+- First up to install what I need to get started
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+## Create files and folders!
+
+```bash
+# -p is to create parent directories too if needed
+mkdir -p src/pages
+# create the index (home) page
+touch src/pages/index.js
+```
+
+<Note>
+
+- Now to create the basic files structure for the project
+- Note `src/pages/index.js` is the Gatsby folder structure
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+## Create files and folders!
+
+```jsx
+// index.js
+import React from 'react'
+
+export default function IndexPage() {
+  return <h1>Hello World!</h1>
+}
+```
+
+<Note>
+
+- Now I'll add in the site index page
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+## Run Gatsby develop!
+
+```bash
+# if you're using npm 👇
+# $(npm bin)/gatsby develop
+yarn gatsby develop
+```
+
+<Note>
+
+- yarn gatsby develop to run from the terminal without npm
+- I'll add in some scripts next
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+## Create content files for the blog!
+
+```bash
+# this creates the folders in the root of the project
+mkdir -p content/2021/03/{06/hello-world,07/second-post,08/third-post}
+# create individual files
+touch content/2021/03/06/hello-world/index.mdx
+touch content/2021/03/07/second-post/index.mdx
+touch content/2021/03/08/third-post/index.mdx
+```
+
+<Note>
+
+- Create .mdx files from the terminal
+- Becuse watching someone do it isn't very entertaining
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+## Add content!
+
+```markdown
+---
+title: Hello World - from mdx!
+date: 2021-03-06
+---
+
+My first post!!
+
+## h2 Heading
+
+Some meaningful prose
+
+### h3 Heading
+
+Some other meaningful prose
+```
+
+<Note>
+
+- I'll add the content for the other files too
+- Note the frontmatter block `---` this is the data about the post
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+## Create Gatsby config
+
+```bash
+touch gatsby-config.js
+# add required Gatsby plugins
+yarn add gatsby-plugin-mdx @mdx-js/mdx @mdx-js/react gatsby-source-filesystem
+```
+
+<Note>
+
+- Create the Gatsby config file to take the plugins
+- Install the plugins needed
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+## Add npm scripts!
+
+```json
+// package.json
+"scripts": {
+  "build": "gatsby build",
+  "dev": "gatsby develop",
+  "serve": "gatsby serve",
+  "clean": "gatsby clean"
+},
+```
+
+<Note>
+
+- yarn gatsby develop to run from the terminal without npm
+- I'll add in some scripts next
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+---
+
+---
+
+---
+
 # GraphCMS with MDX
 
 ---
@@ -286,8 +515,6 @@ This is a paragraph
   - Sara Viera at Vue Conf London 2018
 - Being a blogger/digital gardener/thought pamphlet author this really
   useful
-- This presentation is super bare bones, I didn't have time to make it
-  pretty
 - Why is it useful?
 - MDX allows for the addition of JSX to Markdown, so React components
   in your documentation.
