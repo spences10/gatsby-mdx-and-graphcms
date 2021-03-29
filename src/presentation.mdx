@@ -611,6 +611,134 @@ View GraphiQL, an in-browser IDE, to explore your site's data and schema
 
 <CodeHighlight>
 
+## Site metadata hook files
+
+```bash
+# make a folder for all the hooks to live
+mkdir src/hooks
+# creathe the file
+touch src/hooks/use-site-metadata.js
+```
+
+<Note>
+
+- I'm creating a hook to get the siteMetadata
+- Next slide for the hook
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+```jsx
+// src/hooks/use-site-metadata.js
+import { graphql, useStaticQuery } from 'gatsby'
+export const useSiteMetadata = () => {
+  const { site } = useStaticQuery(
+    graphql`
+      query SITE_METADATA_QUERY {
+        site {
+          siteMetadata {
+            title
+            description
+          }
+        }
+      }
+    `
+  )
+  return site.siteMetadata
+}
+```
+
+<Note>
+
+- I'm creating a hook to get the siteMetadata
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+```diff
++ query SITE_METADATA_QUERY {
+  site {
+    siteMetadata {
+      title
+      description
+    }
+  }
+}
+```
+
+<Note>
+
+- You may notice the query looks different
+- This is to help with identification because there will be more
+  queries in the project
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+# Implement `siteMetadata` hook
+
+```jsx {3,5,8-9}
+// src/pages/index.js
+import React from 'react'
+import { useSiteMetadata } from '../hooks/use-site-metadata'
+export default function IndexPage() {
+  const { title, description } = useSiteMetadata()
+  return (
+    <>
+      <h1>{title}</h1>
+      <p>{description}</p>
+    </>
+  )
+}
+```
+
+<Note>
+
+- Use the siteMetadata hook in the index page
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+# Add Theme UI
+
+```bash
+yarn add theme-ui gatsby-plugin-theme-ui @theme-ui/presets
+```
+
+<Note>
+
+- Install dependencies for Theme UI
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+---
+
+<CodeHighlight>
+
 ```json
 {
   "data": {
