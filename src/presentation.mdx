@@ -611,6 +611,36 @@ View GraphiQL, an in-browser IDE, to explore your site's data and schema
 
 <CodeHighlight>
 
+```json
+{
+  "data": {
+    "allMdx": {
+      "nodes": [
+        {
+          "frontmatter": {
+            "title": "Hello World - from mdx!",
+            "date": "2021-03-06T00:00:00.000Z"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+<Note>
+
+- I can use this in a react component now
+- Other results removed for brevity
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
 ## Site metadata hook files
 
 ```bash
@@ -735,35 +765,33 @@ yarn add theme-ui gatsby-plugin-theme-ui @theme-ui/presets
 
 ---
 
----
-
 <CodeHighlight>
 
-```json
-{
-  "data": {
-    "allMdx": {
-      "nodes": [
-        {
-          "frontmatter": {
-            "title": "Hello World - from mdx!",
-            "date": "2021-03-06T00:00:00.000Z"
-          }
-        }
-      ]
-    }
-  }
+# Gatsby config Theme UI
+
+```js {4}
+module.exports = {
+  siteMetadata,
+  plugins: [
+    `gatsby-plugin-theme-ui`,
+    `gatsby-plugin-mdx`,
+    {
+      resolve: `gatsby-source-filesystem`,
+    },
+    // rest of the module unchanged
+  ],
 }
 ```
 
 <Note>
 
-- I can use this in a react component now
-- Other results removed for brevity
+- Add the Theme UI
 
 </Note>
 
 </CodeHighlight>
+
+---
 
 ---
 
