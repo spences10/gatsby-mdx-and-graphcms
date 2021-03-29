@@ -495,6 +495,150 @@ yarn add gatsby-plugin-mdx @mdx-js/mdx @mdx-js/react gatsby-source-filesystem
 
 ---
 
+<CodeHighlight>
+
+## Config the config 😂
+
+```js
+module.exports = {
+  plugins: [
+    `gatsby-plugin-mdx`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/content`,
+        name: `content`,
+      },
+    },
+  ],
+}
+```
+
+<Note>
+
+- Gatsby source filesystem pointed to the content
+- Add the MDX plugin to parse the MDX files
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+## Add site metadata
+
+```js
+const siteMetadata = {
+  title: `My Gatsby Blog`,
+  description: `This is my coding blog.`,
+}
+module.exports = {
+  siteMetadata,
+  plugins: [
+    // configured plugins here
+    {
+      // empty for brevity
+    },
+  ],
+}
+```
+
+<Note>
+
+- `siteMetadata` in it's own object for ease of management
+- This is important for SEO
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+## Gatsby GraphQL explorer
+
+```bash
+You can now view my-gatsby-blog in the browser.
+⠀
+  http://localhost:8000/
+⠀
+View GraphiQL, an in-browser IDE, to explore your site's data and schema
+⠀
+  http://localhost:8000/___graphql
+```
+
+<Note>
+
+- You may have noticed this in the terminal
+- Now I can check on the data with Graph<em>i</em>QL
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+## Gatsby Graph<em>i</em>QL explorer
+
+```graphql
+{
+  allMdx {
+    nodes {
+      frontmatter {
+        title
+        date
+      }
+    }
+  }
+}
+```
+
+<Note>
+
+- Add a query to get the frontmatter of the posts
+- The resulting data looks like this, next slide
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+```json
+{
+  "data": {
+    "allMdx": {
+      "nodes": [
+        {
+          "frontmatter": {
+            "title": "Hello World - from mdx!",
+            "date": "2021-03-06T00:00:00.000Z"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+<Note>
+
+- I can use this in a react component now
+- Other results removed for brevity
+
+</Note>
+
+</CodeHighlight>
+
+---
+
 ---
 
 ---
