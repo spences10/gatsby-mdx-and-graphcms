@@ -157,6 +157,7 @@ export default {
       fontSize: 'xl',
       overflow: 'auto',
       margin: '3rem -3rem',
+      padding: '0 30px 0 0',
       '.line-number-style': {
         display: 'inline-block',
         width: '2em',
