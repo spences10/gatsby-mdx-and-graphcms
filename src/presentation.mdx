@@ -394,6 +394,32 @@ yarn gatsby develop
 
 <CodeHighlight>
 
+## Add npm scripts!
+
+```json
+// package.json
+"scripts": {
+  "build": "gatsby build",
+  "dev": "gatsby develop -p 8945 -o",
+  "serve": "gatsby serve -p 9854 -o",
+  "clean": "gatsby clean"
+},
+```
+
+<Note>
+
+- The default port for Gatsby develop is 8000 I've specified my port
+  with the `-p` flag
+- The `-o` flag opens the web page when it's ready
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
 ## Create content files for the blog!
 
 ```bash
@@ -462,31 +488,6 @@ yarn add gatsby-plugin-mdx @mdx-js/mdx @mdx-js/react gatsby-source-filesystem
 
 - Create the Gatsby config file to take the plugins
 - Install the plugins needed
-
-</Note>
-
-</CodeHighlight>
-
----
-
-<CodeHighlight>
-
-## Add npm scripts!
-
-```json
-// package.json
-"scripts": {
-  "build": "gatsby build",
-  "dev": "gatsby develop",
-  "serve": "gatsby serve",
-  "clean": "gatsby clean"
-},
-```
-
-<Note>
-
-- yarn gatsby develop to run from the terminal without npm
-- I'll add in some scripts next
 
 </Note>
 
