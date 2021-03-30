@@ -793,6 +793,261 @@ module.exports = {
 
 ---
 
+<CodeHighlight>
+
+# Theme UI files
+
+```bash
+# create the folder for the Theme UI theme
+mkdir src/gatsby-plugin-theme-ui
+# create the theme file
+touch src/gatsby-plugin-theme-ui/index.js
+```
+
+<Note>
+
+- Create files for Theme UI
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+# Gatsby config Theme UI
+
+```js
+import { deep, swiss } from '@theme-ui/presets'
+
+const theme = {
+  ...swiss,
+}
+
+export default theme
+```
+
+<Note>
+
+- Spread in the preset
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<CodeHighlight>
+
+# Set up Dark Theme
+
+```js
+const theme = {
+  ...swiss,
+  colors: {
+    ...swiss.colors,
+    modes: {
+      dark: {
+        ...deep.colors,
+      },
+    },
+  },
+}
+```
+
+<Note>
+
+- Spread deep theme into color mode
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<div style={{transform: 'scale(0.75)'}}>
+
+<CodeHighlight>
+
+```js
+import { deep, swiss } from '@theme-ui/presets'
+
+const theme = {
+  ...swiss,
+  colors: {
+    ...swiss.colors,
+    modes: {
+      dark: {
+        ...deep.colors,
+      },
+    },
+  },
+  styles: {
+    ...swiss.styles,
+    p: {
+      fontFamily: 'body',
+      fontWeight: 'body',
+      lineHeight: 'body',
+      fontSize: 3,
+    },
+  },
+}
+
+export default theme
+```
+
+</CodeHighlight>
+
+</div>
+
+<Note>
+
+- Full file looks like this
+- From here on the code samples will be getting harder to show in a
+  slide
+
+</Note>
+
+---
+
+<CodeHighlight>
+
+# Layout component
+
+```bash
+# create a components folder
+mkdir src/components
+# create Layout and Header files
+touch src/components/header.js src/components/layout.js
+```
+
+<Note>
+
+- Creating a header and layout component
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<div style={{transform: 'scale(0.65)'}}>
+
+<CodeHighlight>
+
+```jsx
+// src/components/header.js
+import { Link as GatsbyLink } from 'gatsby'
+import React from 'react'
+import { Box, Heading, Link } from 'theme-ui'
+
+export const Header = ({ siteTitle, siteDescription }) => {
+  return (
+    <Box as="header" sx={{ bg: 'highlight', mb: '1.45rem' }}>
+      <Box
+        as="div"
+        sx={{
+          m: '0 auto',
+          maxWidth: '640px',
+          p: '1.45rem 1.0875rem',
+        }}
+      >
+        <Link as={GatsbyLink} to="/">
+          <Heading>{siteTitle}</Heading>
+        </Link>
+        <Box as="p" variant="styles.p">
+          {siteDescription}
+        </Box>
+      </Box>
+    </Box>
+  )
+}
+```
+
+</CodeHighlight>
+
+</div>
+
+<Note>
+
+- Create a header component to take site title and description from
+  the `useSiteMetadata` hook
+- I'll use `useSiteMetadata` in the layout component
+
+</Note>
+
+---
+
+<div style={{transform: 'scale(0.65)'}}>
+
+<CodeHighlight>
+
+```jsx
+import React from 'react'
+import { Box } from 'theme-ui'
+import { useSiteMetadata } from '../hooks/use-site-metadata'
+import { Header } from './header'
+
+export const Layout = ({ children }) => {
+  const { title, description } = useSiteMetadata()
+  return (
+    <>
+      <Header siteTitle={title} siteDescription={description} />
+      <Box
+        as="div"
+        sx={{
+          margin: '0 auto',
+          maxWidth: '640px',
+          padding: '0 1.0875rem 1.45rem',
+        }}
+      >
+        <Box as="main">{children}</Box>
+      </Box>
+    </>
+  )
+}
+```
+
+</CodeHighlight>
+
+</div>
+
+<Note>
+
+- The layout component will wrap everything in the site
+
+</Note>
+
+---
+
+<CodeHighlight>
+
+# Implement Layout component
+
+```jsx
+import React from 'react'
+import { Layout } from '../components/layout'
+
+export default function IndexPage() {
+  return (
+    <>
+      <Layout>
+        <h1>This is wrapped</h1>
+      </Layout>
+    </>
+  )
+}
+```
+
+<Note>
+
+- Creating a header and layout component
+
+</Note>
+
+</CodeHighlight>
+
 ---
 
 ---
@@ -802,297 +1057,6 @@ module.exports = {
 ---
 
 # GraphCMS with MDX
-
----
-
-# Let's talk about MDX
-
-<Note>
-
-- Just a little more time to talk about MDX
-- and how awesome it is
-- This presentation is made with MDX
-- I recall the first time I discovered MDX for a presentation
-  - Sara Viera at Vue Conf London 2018
-- Being a blogger/digital gardener/thought pamphlet author this really
-  useful
-- Why is it useful?
-- MDX allows for the addition of JSX to Markdown, so React components
-  in your documentation.
-- MDX is a great tool for making interactive documentation no doubt
-  you have seen sites like Josh Comeau's site which is jam packed with
-  whimsy features powered by MDX
-
-</Note>
-
----
-
-<Callout variant="info">
-  <a href="https://www.joshwcomeau.com/react/folding-the-dom/">
-    joshwcomeau.com/react/folding-the-dom
-  </a>
-</Callout>
-
-<Note>
-
-- This was one of the first real world implementations of MDX in a
-  site I found
-- this blew my mind!
-- Lets check it out quickly
-
-</Note>
-
----
-
-# 🤯
-
-<Note>
-
-- This led me down the path of wanting to incorporate MDX into my site
-- And everthing else, see the slides title
-
-</Note>
-
----
-
-<img
-  style={{
-    maxWidth: '50%',
-    textAlign: 'center',
-    display: 'inline',
-  }}
-  src="./assets/mdx-embed-logo.svg"
-/>
-
-## [mdx-embed.com]
-
-[mdx-embed.com]: https://mdx-embed.com/
-
-<Note>
-
-- I'm on the MDX Embed core team
-- MDX Embed is pretty neat, it soon came to light that I wanted this
-  for all the Tweets and YouTube videos I wanted to embed in my site
-- MDX Embed means embedding things like
-
-</Note>
-
----
-
-<Tweet
-  tweetLink="jack/status/20"
-  align="center"
-  hideConversation={true}
-/>
-
-<Note>
-
-- Tweets
-
-</Note>
-
----
-
-<CodePen codePenId="PNaGbb" tabs={['html', 'result']} />
-
-<Note>
-
-- CodePen's
-
-</Note>
-
----
-
-<YouTube youTubeId="W3Ixy4B1AaQ" />
-
-<Note>
-
-- And YouTube's
-
-</Note>
-
----
-
-## MDX Gatsby Plugin
-
-```bash
-npm install gatsby-plugin-mdx @mdx-js/mdx @mdx-js/react
-```
-
-<Note>
-
-- Ok let's look at what we need to do to get set up with MDX in a
-  Gatsby project
-
-</Note>
-
----
-
-## MDX Embed Gatsby Plugin
-
-```bash
-npm install mdx-embed gatsby-plugin-mdx-embed
-```
-
-<Note>
-
-- FYI you can also add in MDX Embed at this point too
-
-</Note>
-
----
-
-<CodeHighlight>
-
-```js {2}
-module.exports = {
-  siteMetadata,
-  plugins: [
-    // all other gatsby plugins
-    {
-      resolve: `gatsby-plugin-mdx`,
-      options: {
-        extensions: [`.mdx`, `.md`],
-      },
-    },
-  ],
-}
-```
-
-<Note>
-
-- Fun fact you don't explicitly have to define the file types, I
-  discodered this on a live stream with James Q Quick
-- The extension was wrong but still imported the files
-
-</Note>
-
-</CodeHighlight>
-
----
-
-<CodeHighlight>
-
-```js {7}
-{
-  resolve: `gatsby-plugin-mdx`,
-  options: {
-    extensions: [`.mdx`, `.md`],
-    gatsbyRemarkPlugins: [
-      `gatsby-remark-copy-linked-files`,
-      `gatsby-remark-assets`,
-    ],
-  },
-},
-```
-
-<Note>
-
-- You can also add in any Remark Plugins you might want as well
-
-</Note>
-
-</CodeHighlight>
-
----
-
-<CodeHighlight>
-
-```js {4}
-{
-  resolve: `gatsby-source-filesystem`,
-  options: {
-    path: `${__dirname}/content/`,
-    name: `content`,
-  },
-},
-```
-
-<Note>
-
-- I won't pretend to know how any of it works I'm ok with abstractions
-
-</Note>
-
-</CodeHighlight>
-
----
-
-<CodeHighlight>
-
-```jsx {3}
-export const wrapPageElement = ({ element }) => (
-  <MDXProvider components={components}>
-    <Layout>{element}</Layout>
-  </MDXProvider>
-)
-```
-
-<Note>
-
-- High up in the component tree you need to wrap your MDX components
-  in the MDXProvider
-- This can be added to the gatsby-prowser and gatsby-ssr files
-
-</Note>
-
-</CodeHighlight>
-
----
-
-<CodeHighlight>
-
-```js
-import { wrapPageElement as wrap } from './src/root-wrapper'
-
-export const wrapPageElement = wrap
-```
-
-<Note>
-
-- Or you can create on file and import that into the two files, both
-  work but you're only maintaining one file the other way
-
-</Note>
-
-</CodeHighlight>
-
----
-
-# Fin
-
-<Note>
-
-- This was the section where I was meant to talk about integrating MDX
-  into NextJS
-- Unfortunately I have run out of time on the slides for this, so I
-  apologise for that
-
-</Note>
-
----
-
-<Tweet
-  tweetLink="bradgarropy/status/1352472699520610304"
-  align="center"
-  hideConversation={true}
-/>
-
----
-
-<Tweet
-  tweetLink="spences10/status/1360694044305801216"
-  align="center"
-  hideConversation={true}
-/>
-
----
-
-<Tweet
-  tweetLink="leeerob/status/1360746843785805830"
-  align="center"
-  hideConversation={true}
-/>
 
 ---
 
