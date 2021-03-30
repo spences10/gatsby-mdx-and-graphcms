@@ -1025,7 +1025,7 @@ export const Layout = ({ children }) => {
 
 # Implement Layout component
 
-```jsx
+```jsx {7,9}
 import React from 'react'
 import { Layout } from '../components/layout'
 
@@ -1049,6 +1049,291 @@ export default function IndexPage() {
 </CodeHighlight>
 
 ---
+
+<CodeHighlight>
+
+# Query site content for index page
+
+```graphql
+{
+  allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
+    nodes {
+      id
+      slug
+      excerpt(pruneLength: 250)
+      frontmatter {
+        title
+        date(formatString: "YYYY MMMM Do")
+      }
+    }
+  }
+}
+```
+
+<Note>
+
+- Creating a header and layout component
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<div style={{transform: 'scale(0.3)'}}>
+
+<CodeHighlight>
+
+```jsx
+// src/pages/index.js
+import { graphql, Link as GatsbyLink } from 'gatsby'
+import React from 'react'
+import { Box, Heading, Link } from 'theme-ui'
+import { Layout } from '../components/layout'
+
+export default function IndexPage({ data }) {
+  return (
+    <>
+      <Layout>
+        {data.allMdx.nodes.map(
+          ({ id, excerpt, frontmatter, slug }) => (
+            <Box
+              key={id}
+              as="article"
+              sx={{
+                mb: 4,
+                p: 3,
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                border: '1px solid #d1d1d1',
+                borderRadius: '15px',
+              }}
+            >
+              <Link as={GatsbyLink} to={`/${slug}`}>
+                <Heading>{frontmatter.title}</Heading>
+                <Box as="p" variant="styles.p">
+                  {frontmatter.date}
+                </Box>
+                <Box as="p" variant="styles.p">
+                  {excerpt}
+                </Box>
+              </Link>
+            </Box>
+          )
+        )}
+      </Layout>
+    </>
+  )
+}
+
+export const query = graphql`
+  query SITE_INDEX_QUERY {
+    allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
+      nodes {
+        id
+        excerpt(pruneLength: 250)
+        frontmatter {
+          title
+          date(formatString: "YYYY MMMM Do")
+        }
+        slug
+      }
+    }
+  }
+`
+```
+
+</CodeHighlight>
+
+</div>
+
+<Note>
+
+- See what I mean about getting harder to display the components now!
+- Let me try break it down a bit
+
+</Note>
+
+---
+
+<CodeHighlight>
+
+# Index query
+
+```graphql
+query SITE_INDEX_QUERY {
+  allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
+    nodes {
+      id
+      excerpt(pruneLength: 250)
+      frontmatter {
+        title
+        date(formatString: "YYYY MMMM Do")
+      }
+      slug
+    }
+  }
+}
+```
+
+<Note>
+
+- This is getting all the mdx posts in date order
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<div style={{transform: 'scale(0.5)'}}>
+
+<CodeHighlight>
+
+# Layout wrapping the index query
+
+```jsx
+<Layout>
+  {data.allMdx.nodes.map(({ id, excerpt, frontmatter, slug }) => (
+    <Box
+      key={id}
+      as="article"
+      sx={{
+        mb: 4,
+        p: 3,
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+        border: '1px solid #d1d1d1',
+        borderRadius: '15px',
+      }}
+    >
+      <Link as={GatsbyLink} to={`/${slug}`}>
+        <Heading>{frontmatter.title}</Heading>
+        <Box as="p" variant="styles.p">
+          {frontmatter.date}
+        </Box>
+        <Box as="p" variant="styles.p">
+          {excerpt}
+        </Box>
+      </Link>
+    </Box>
+  ))}
+</Layout>
+```
+
+</CodeHighlight>
+
+</div >
+
+<Note>
+
+- This is the imported layout component wrapping the posts from the
+  query with Them UI components
+
+</Note>
+
+---
+
+<CodeHighlight>
+
+# Gatsby File Routes API
+
+```jsx
+# create the route api file
+touch src/pages/{mdx.slug}.js
+```
+
+<Note>
+
+- Clicking on the links in the index page won't give anything just yet
+  as I've not created the pages for that
+- I'll do that now with the Gatsby file routes api
+- Note the file notation
+
+</Note>
+
+</CodeHighlight>
+
+---
+
+<div style={{transform: 'scale(0.45)'}}>
+
+<CodeHighlight>
+
+# `{mx.slug}.js`
+
+```jsx
+// src/pages/{mdx.slug}.js
+import { graphql } from 'gatsby'
+import { MDXRenderer } from 'gatsby-plugin-mdx'
+import React from 'react'
+import { Box } from 'theme-ui'
+export default function PostPage({ data }) {
+  const {
+    body,
+    frontmatter: { title },
+  } = data.mdx
+  return (
+    <>
+      <Box as="h1" variant="styles.h1" fontSize="4xl">
+        {title}
+      </Box>
+      <MDXRenderer>{body}</MDXRenderer>
+    </>
+  )
+}
+
+export const query = graphql`
+  query POST_BY_SLUG($slug: String) {
+    mdx(slug: { eq: $slug }) {
+      id
+      slug
+      body
+      frontmatter {
+        date
+        title
+      }
+    }
+  }
+`
+```
+
+</CodeHighlight>
+
+</div >
+
+<Note>
+
+- This is the imported layout component wrapping the posts from the
+  query with Them UI components
+
+</Note>
+
+---
+
+<CodeHighlight>
+
+# `{mdx.slug}.js` query
+
+```graphql {2,4}
+query POST_BY_SLUG($slug: String) {
+  mdx(slug: { eq: $slug }) {
+    id
+    slug
+    body
+    frontmatter {
+      date
+      title
+    }
+  }
+}
+```
+
+<Note>
+
+- Uses the `mdx.slug` to create the page
+
+</Note>
+
+</CodeHighlight>
 
 ---
 
