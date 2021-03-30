@@ -36,11 +36,12 @@ yarn-error.log" > .gitignore
 ```
 
 ```bash
-yarn add gatsby react react-dom
 # -p is to create parent directories too if needed
 mkdir -p src/pages
 # create the index (home) page
 touch src/pages/index.js
+# install dependencies
+yarn add gatsby react react-dom
 ```
 
 ```jsx
@@ -348,6 +349,10 @@ git commit -m 'add site metadata and metadata hook'
 ## Styling with Theme UI
 
 ```bash
+# create the folder for the Theme UI theme
+mkdir src/gatsby-plugin-theme-ui
+# create the theme file
+touch src/gatsby-plugin-theme-ui/index.js
 yarn add theme-ui gatsby-plugin-theme-ui @theme-ui/presets
 ```
 
@@ -362,14 +367,8 @@ module.exports = {
       // rest of the module unchanged
 ```
 
-```bash
-# create the folder for the Theme UI theme
-mkdir src/gatsby-plugin-theme-ui
-# create the theme file
-touch src/gatsby-plugin-theme-ui/index.js
-```
-
 ```js
+// src/gatsby-plugin-theme-ui/index.js
 import { deep, swiss } from '@theme-ui/presets'
 
 const theme = {
@@ -411,6 +410,7 @@ touch src/components/header.js src/components/layout.js
 ```
 
 ```js
+// src/components/header.js
 import { Link as GatsbyLink } from 'gatsby'
 import React from 'react'
 import { Box, Heading, Link } from 'theme-ui'
@@ -439,6 +439,7 @@ export const Header = ({ siteTitle, siteDescription }) => {
 ```
 
 ```js
+// src/components/layout.js
 import React from 'react'
 import { Box } from 'theme-ui'
 import { useSiteMetadata } from '../hooks/use-site-metadata'
@@ -729,37 +730,33 @@ export const wrapPageElement = rootWrapper
 import { graphql, Link as GatsbyLink } from 'gatsby'
 import React from 'react'
 import { Box, Heading, Link } from 'theme-ui'
-import { Layout } from '../components/layout'
+
 export default function IndexPage({ data }) {
   return (
     <>
-      <Layout>
-        {data.allMdx.nodes.map(
-          ({ id, excerpt, frontmatter, slug }) => (
-            <Box
-              key={id}
-              as="article"
-              sx={{
-                mb: 4,
-                p: 3,
-                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-                border: '1px solid #d1d1d1',
-                borderRadius: '15px',
-              }}
-            >
-              <Link as={GatsbyLink} to={`/${slug}`}>
-                <Heading>{frontmatter.title}</Heading>
-                <Box as="p" variant="styles.p">
-                  {frontmatter.date}
-                </Box>
-                <Box as="p" variant="styles.p">
-                  {excerpt}
-                </Box>
-              </Link>
+      {data.allMdx.nodes.map(({ id, excerpt, frontmatter, slug }) => (
+        <Box
+          key={id}
+          as="article"
+          sx={{
+            mb: 4,
+            p: 3,
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+            border: '1px solid #d1d1d1',
+            borderRadius: '15px',
+          }}
+        >
+          <Link as={GatsbyLink} to={`/${slug}`}>
+            <Heading>{frontmatter.title}</Heading>
+            <Box as="p" variant="styles.p">
+              {frontmatter.date}
             </Box>
-          )
-        )}
-      </Layout>
+            <Box as="p" variant="styles.p">
+              {excerpt}
+            </Box>
+          </Link>
+        </Box>
+      ))}
     </>
   )
 }
@@ -852,6 +849,7 @@ import {
   Link,
   useColorMode,
 } from 'theme-ui'
+
 export const Header = ({ siteTitle, siteDescription }) => {
   const [colorMode, setColorMode] = useColorMode()
   return (
@@ -897,10 +895,10 @@ git commit -m 'add theme toggle to header'
 ## Code blocks
 
 ```bash
-# install the package
-yarn add @theme-ui/prism
 # create Theme UI components file
 touch src/gatsby-plugin-theme-ui/components.js
+# install the package
+yarn add @theme-ui/prism
 ```
 
 ```js
